@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clean Space – Professionelle Reinigung</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy: #0d1b2a;
+      --navy-mid: #1a2d42;
+      --blue-accent: #2d6a9f;
+      --blue-light: #5ba4d4;
+      --off-white: #f7f5f2;
+      --cream: #ede9e3;
+      --text-muted: #8a9ab0;
+      --white: #ffffff;
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--navy);
+      background: var(--off-white);
+      overflow-x: hidden;
+    }
+
+    /* ─── HEADER ─────────────────────────────────── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(13, 27, 42, 0.97);
+      backdrop-filter: blur(12px);
+      padding: 0 48px;
+      height: 72px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+
+    .logo-wrap img {
+      height: 44px;
+      width: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid rgba(255,255,255,0.15);
+    }
+
+    .logo-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45rem;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 0.04em;
+    }
+
+    nav {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    nav a {
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border-radius: 4px;
+      transition: color var(--transition), background var(--transition);
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 4px; left: 18px; right: 18px;
+      height: 1px;
+      background: var(--blue-light);
+      transform: scaleX(0);
+      transition: transform var(--transition);
+      transform-origin: left;
+    }
+
+    nav a:hover {
+      color: var(--white);
+      background: rgba(255,255,255,0.05);
+    }
+
+    nav a:hover::after {
+      transform: scaleX(1);
+    }
+
+    nav a.active {
+      color: var(--white);
+      background: rgba(93, 164, 212, 0.15);
+    }
+
+    nav a.active::after {
+      transform: scaleX(1);
+    }
+
+    /* ─── HERO SLIDER ─────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1.4s ease;
+    }
+
+    .slide.active { opacity: 1; }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.06);
+      transition: transform 6s ease;
+      filter: brightness(0.48);
+    }
+
+    .slide.active img {
+      transform: scale(1);
+    }
+
+    /* Overlay gradient */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(13,27,42,0.3) 0%,
+        rgba(13,27,42,0.1) 40%,
+        rgba(13,27,42,0.6) 100%
+      );
+      pointer-events: none;
+    }
+
+    .hero-text {
+      position: absolute;
+      bottom: 12%;
+      left: 8%;
+      z-index: 10;
+      max-width: 560px;
+    }
+
+    .hero-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      margin-bottom: 18px;
+      font-weight: 400;
+    }
+
+    .hero-text h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 22px;
+    }
+
+    .hero-text p {
+      color: rgba(255,255,255,0.7);
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--blue-accent);
+      color: var(--white);
+      text-decoration: none;
+      padding: 14px 32px;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: background var(--transition), gap var(--transition);
+    }
+
+    .hero-cta:hover {
+      background: var(--blue-light);
+      gap: 16px;
+    }
+
+    /* Slide indicators */
+    .slide-dots {
+      position: absolute;
+      bottom: 7%;
+      right: 8%;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 2px;
+      height: 24px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background var(--transition), height var(--transition);
+    }
+
+    .dot.active {
+      background: var(--white);
+      height: 40px;
+    }
+
+    /* ─── SERVICIOS ───────────────────────────────── */
+    .servicios-section {
+      padding: 120px 48px;
+      background: var(--off-white);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--blue-accent);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      color: var(--navy);
+      letter-spacing: -0.01em;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .service-card {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      cursor: pointer;
+    }
+
+    .service-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      filter: brightness(0.55);
+    }
+
+    .service-card:hover img {
+      transform: scale(1.05);
+      filter: brightness(0.35);
+    }
+
+    .service-info {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 32px;
+    }
+
+    .service-num {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      color: var(--blue-light);
+      margin-bottom: 10px;
+    }
+
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .service-desc {
+      color: rgba(255,255,255,0);
+      font-size: 0.85rem;
+      line-height: 1.65;
+      font-weight: 300;
+      transition: color 0.4s ease;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, color 0.4s ease;
+    }
+
+    .service-card:hover .service-desc {
+      color: rgba(255,255,255,0.8);
+      max-height: 100px;
+    }
+
+    /* ─── QUIENES SOMOS ───────────────────────────── */
+    .about-section {
+      background: var(--navy);
+      padding: 120px 48px;
+    }
+
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: center;
+    }
+
+    .about-img-wrap {
+      position: relative;
+    }
+
+    .about-img-wrap img {
+      width: 100%;
+      border-radius: 2px;
+      display: block;
+      filter: brightness(0.9) saturate(0.85);
+    }
+
+    .about-img-wrap::before {
+      content: '';
+      position: absolute;
+      top: -20px; left: -20px;
+      right: 20px; bottom: 20px;
+      border: 1px solid rgba(93,164,212,0.2);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+    .about-text .section-label {
+      color: var(--blue-light);
+    }
+
+    .about-text .section-title {
+      color: var(--white);
+      text-align: left;
+      margin-bottom: 32px;
+    }
+
+    .about-text p {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.95rem;
+      line-height: 1.85;
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+
+    .about-text p:last-of-type { margin-bottom: 40px; }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 40px;
+      margin-top: 10px;
+    }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 300;
+      color: var(--blue-light);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .about-stats--single {
+      grid-template-columns: 1fr;
+      max-width: 180px;
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── FLOATING BUTTONS ────────────────────────── */
+    .floating-buttons {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 9999;
+    }
+
+    .floating-buttons a {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--navy-mid);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+      transition: transform var(--transition), background var(--transition);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .floating-buttons a:hover {
+      transform: scale(1.12);
+      background: var(--blue-accent);
+    }
+
+    .floating-buttons img {
+      width: 22px;
+      height: 22px;
+    }
+
+    /* ─── FOOTER ──────────────────────────────────── */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-brand img {
+      height: 32px;
+      width: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      opacity: 0.7;
+    }
+
+    .footer-brand span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.5);
+    }
+
+    footer p {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.06em;
+    }
+
+    /* ─── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 900px) {
+      header { padding: 0 24px; }
+      .logo-name { display: none; }
+      .servicios-section { padding: 80px 24px; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .about-section { padding: 80px 24px; }
+      .about-inner { grid-template-columns: 1fr; gap: 48px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+
+    @media (max-width: 600px) {
+      nav a { padding: 8px 10px; font-size: 0.72rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .hero-text { left: 5%; right: 5%; }
+      .slide-dots { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ── HEADER ─────────────────────────────────────── -->
+<header>
+  <a href="#startseite" class="logo-wrap">
+    <img src="logoclean.jpeg" alt="Clean Space Logo">
+    <span class="logo-name">Clean Space</span>
+  </a>
+
+  <nav>
+    <a href="#startseite" class="active" data-nav>Startseite</a>
+    <a href="dienstleistungen.html" data-nav>Dienstleistungen</a>
+    <a href="contacto.html" data-nav>Kontakt</a>
+  </nav>
+</header>
+
+<!-- ── HERO SLIDER ────────────────────────────────── -->
+<section id="startseite" class="hero">
+
+  <div class="slide active">
+    <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=1600&q=80" alt="Küche reinigen">
+  </div>
+  <div class="slide">
+    <img src="https://images.unsplash.com/photo-1603380353725-f8a4d39cc41e?w=1600&q=80" alt="Wohnzimmer reinigen">
+  </div>
+  <div class="slide">
+    <img src="https://images.unsplash.com/photo-1563453392212-326f5e854473?w=1600&q=80" alt="Badezimmer reinigen">
+  </div>
+
+  <div class="hero-text">
+    <p class="hero-label">Professionelle Reinigungsdienste</p>
+    <h1>Sauberkeit,<br>die überzeugt.</h1>
+    <p>Maßgeschneiderte Reinigungslösungen für Privathaushalte, Büros und Gewerbeobjekte – zuverlässig, diskret und mit höchster Sorgfalt.</p>
+    <a href="contacto.html" class="hero-cta">Kontakt aufnehmen →</a>
+  </div>
+
+  <div class="slide-dots">
+    <div class="dot active" onclick="goSlide(0)"></div>
+    <div class="dot" onclick="goSlide(1)"></div>
+    <div class="dot" onclick="goSlide(2)"></div>
+  </div>
+
+</section>
+
+<!-- ── SERVICIOS ──────────────────────────────────── -->
+<section id="dienstleistungen" class="servicios-section">
+  <div class="section-header reveal">
+    <p class="section-label">Was wir bieten</p>
+    <h2 class="section-title">Unsere Dienstleistungen</h2>
+  </div>
+
+  <div class="services-grid reveal">
+
+    <div class="service-card">
+      <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&q=80" alt="Haushaltsreinigung">
+      <div class="service-info">
+        <span class="service-num">01</span>
+        <h3 class="service-name">Haushalts­reinigung</h3>
+        <p class="service-desc">Gründliche Reinigung Ihrer Wohnräume – regelmäßig oder einmalig, immer mit Sorgfalt und Diskretion.</p>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80" alt="Büroreinigung">
+      <div class="service-info">
+        <span class="service-num">02</span>
+        <h3 class="service-name">Büro­reinigung</h3>
+        <p class="service-desc">Professionelle Reinigung von Büros und Geschäftsräumen für eine produktive Arbeitsumgebung.</p>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Baureinigung">
+      <div class="service-info">
+        <span class="service-num">03</span>
+        <h3 class="service-name">Bau­reinigung</h3>
+        <p class="service-desc">Gründliche Endreinigung nach Bau- oder Renovierungsarbeiten – bereit zur Übergabe.</p>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80" alt="Tiefenreinigung">
+      <div class="service-info">
+        <span class="service-num">04</span>
+        <h3 class="service-name">Tiefen­reinigung</h3>
+        <p class="service-desc">Intensive Reinigung schwer zugänglicher Bereiche – Küche, Bad, Fugen und mehr.</p>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80" alt="Fensterreinigung">
+      <div class="service-info">
+        <span class="service-num">05</span>
+        <h3 class="service-name">Fenster­reinigung</h3>
+        <p class="service-desc">Kristallklare Fenster innen und außen – für mehr Licht und einen gepflegten Eindruck.</p>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <img src="https://images.unsplash.com/photo-1573883431205-98b5f10aaedb?w=800&q=80" alt="Umzugsreinigung">
+      <div class="service-info">
+        <span class="service-num">06</span>
+        <h3 class="service-name">Umzugs­reinigung</h3>
+        <p class="service-desc">Endreinigung beim Auszug oder Grundreinigung beim Einzug – stressfreier Übergang garantiert.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── ÜBER UNS ────────────────────────────────────── -->
+<section id="ueber-uns" class="about-section">
+  <div class="about-inner">
+
+    <div class="about-img-wrap reveal">
+      <img src="https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=800&q=80" alt="Unser Team">
+    </div>
+
+    <div class="about-text reveal">
+      <p class="section-label">Über uns</p>
+      <h2 class="section-title">Qualität, die man spürt.</h2>
+
+      <p>Bei Clean Space bieten wir professionelle Reinigungslösungen, die individuell auf jede Anforderung abgestimmt sind. Unser Ziel ist es, saubere, sichere und angenehme Räume zu schaffen – sei es in Privathaushalten, Büros, Apartments oder auf Baustellen.</p>
+
+      <p>Unser engagiertes Team wird kontinuierlich geschult und arbeitet mit größter Sorgfalt sowie mit geeigneten Produkten, um Ergebnisse von höchster Qualität zu gewährleisten.</p>
+
+      <p>Wir sind davon überzeugt, dass eine saubere Umgebung nicht nur das Erscheinungsbild eines Ortes verbessert, sondern auch das Wohlbefinden der Menschen, die sich darin aufhalten.</p>
+
+      <div class="about-stats about-stats--single">
+        <div>
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Zuverlässigkeit</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FLOATING BUTTONS ───────────────────────────── -->
+<div class="floating-buttons">
+  <a href="https://wa.me/+41793719626" target="_blank" title="WhatsApp">
+    <img src="whatsapp.png" alt="WhatsApp">
+  </a>
+  <a href="https://www.instagram.com/cleanspace1818" target="_blank" title="Instagram">
+    <img src="instagram.png" alt="Instagram">
+  </a>
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────── -->
+<footer>
+  <div class="footer-brand">
+    <img src="logoclean.jpeg" alt="Logo">
+    <span>Clean Space</span>
+  </div>
+  <p>© 2026 Clean Space · Alle Rechte vorbehalten</p>
+</footer>
+
+<!-- ── JAVASCRIPT ─────────────────────────────────── -->
+<script>
+  // ── Slider
+  let slides = document.querySelectorAll(".slide");
+  let dots   = document.querySelectorAll(".dot");
+  let idx    = 0;
+  let timer;
+
+  function goSlide(n) {
+    slides[idx].classList.remove("active");
+    dots[idx].classList.remove("active");
+    idx = n;
+    slides[idx].classList.add("active");
+    dots[idx].classList.add("active");
+    clearInterval(timer);
+    timer = setInterval(nextSlide, 5000);
+  }
+
+  function nextSlide() {
+    goSlide((idx + 1) % slides.length);
+  }
+
+  timer = setInterval(nextSlide, 5000);
+
+  // ── Scroll reveal
+  const reveals = document.querySelectorAll(".reveal");
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add("visible");
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // ── Nav active state
+  const navLinks = document.querySelectorAll("[data-nav]");
+
+  navLinks.forEach(link => {
+    link.addEventListener("click", function() {
+      navLinks.forEach(l => l.classList.remove("active"));
+      this.classList.add("active");
+    });
+  });
+
+  // Mark active on scroll
+  const sections = [
+    { id: "startseite",       link: navLinks[0] },
+    { id: "dienstleistungen", link: navLinks[1] },
+    { id: "ueber-uns",        link: navLinks[2] }
+  ];
+
+  window.addEventListener("scroll", () => {
+    const scrollY = window.scrollY + 100;
+    sections.forEach(s => {
+      const el = document.getElementById(s.id);
+      if (!el) return;
+      if (scrollY >= el.offsetTop && scrollY < el.offsetTop + el.offsetHeight) {
+        navLinks.forEach(l => l.classList.remove("active"));
+        s.link.classList.add("active");
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

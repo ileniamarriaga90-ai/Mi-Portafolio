@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dienstleistungen – Clean Space</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy: #0d1b2a;
+      --navy-mid: #1a2d42;
+      --blue-accent: #2d6a9f;
+      --blue-light: #5ba4d4;
+      --off-white: #f7f5f2;
+      --white: #ffffff;
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--navy);
+      background: var(--off-white);
+      overflow-x: hidden;
+    }
+
+    /* ─── HEADER ─────────────────────────────────── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(13, 27, 42, 0.97);
+      backdrop-filter: blur(12px);
+      padding: 0 48px;
+      height: 72px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+
+    .logo-wrap img {
+      height: 44px;
+      width: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid rgba(255,255,255,0.15);
+    }
+
+    .logo-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45rem;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 0.04em;
+    }
+
+    nav {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    nav a {
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border-radius: 4px;
+      transition: color var(--transition), background var(--transition);
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 4px; left: 18px; right: 18px;
+      height: 1px;
+      background: var(--blue-light);
+      transform: scaleX(0);
+      transition: transform var(--transition);
+      transform-origin: left;
+    }
+
+    nav a:hover { color: var(--white); background: rgba(255,255,255,0.05); }
+    nav a:hover::after { transform: scaleX(1); }
+    nav a.active { color: var(--white); background: rgba(93,164,212,0.15); }
+    nav a.active::after { transform: scaleX(1); }
+
+    /* ─── PAGE HERO ───────────────────────────────── */
+    .page-hero {
+      padding-top: 72px;
+      height: 340px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .page-hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.35);
+    }
+
+    .page-hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 48px;
+    }
+
+    .page-hero-content .label {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      margin-bottom: 12px;
+    }
+
+    .page-hero-content h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+    }
+
+    /* ─── SERVICES LIST ───────────────────────────── */
+    .services-list {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 48px;
+    }
+
+    .service-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 420px;
+      margin-bottom: 4px;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .service-block.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Alternate image left/right */
+    .service-block:nth-child(even) { direction: rtl; }
+    .service-block:nth-child(even) > * { direction: ltr; }
+
+    .service-block-img {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .service-block-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+      display: block;
+    }
+
+    .service-block:hover .service-block-img img {
+      transform: scale(1.04);
+    }
+
+    .service-block-content {
+      background: var(--navy);
+      padding: 56px 52px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .service-block:nth-child(odd) .service-block-content {
+      background: var(--navy);
+    }
+
+    .service-block:nth-child(even) .service-block-content {
+      background: var(--navy-mid);
+    }
+
+    .s-num {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      color: var(--blue-light);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .s-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .s-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--blue-accent);
+      margin-bottom: 24px;
+    }
+
+    .s-desc {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.92rem;
+      line-height: 1.85;
+      font-weight: 300;
+    }
+
+    /* ─── CTA BANNER ──────────────────────────────── */
+    .cta-banner {
+      background: var(--blue-accent);
+      padding: 72px 48px;
+      text-align: center;
+    }
+
+    .cta-banner p.label {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 16px;
+    }
+
+    .cta-banner h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: var(--white);
+      color: var(--navy);
+      text-decoration: none;
+      padding: 14px 40px;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      font-weight: 500;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .cta-btn:hover {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    /* ─── FLOATING BUTTONS ────────────────────────── */
+    .floating-buttons {
+      position: fixed;
+      right: 20px; bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 9999;
+    }
+
+    .floating-buttons a {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--navy-mid);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+      transition: transform var(--transition), background var(--transition);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .floating-buttons a:hover { transform: scale(1.12); background: var(--blue-accent); }
+    .floating-buttons img { width: 22px; height: 22px; }
+
+    /* ─── FOOTER ──────────────────────────────────── */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-brand img {
+      height: 32px; width: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      opacity: 0.7;
+    }
+
+    .footer-brand span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.5);
+    }
+
+    footer p { font-size: 0.78rem; color: rgba(255,255,255,0.3); letter-spacing: 0.06em; }
+
+    /* ─── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 900px) {
+      header { padding: 0 24px; }
+      .logo-name { display: none; }
+      .services-list { padding: 60px 24px; }
+      .service-block { grid-template-columns: 1fr; min-height: auto; }
+      .service-block:nth-child(even) { direction: ltr; }
+      .service-block-img { height: 280px; }
+      .service-block-content { padding: 40px 32px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ── HEADER ─────────────────────────────────────── -->
+<header>
+  <a href="index.html" class="logo-wrap">
+    <img src="logoclean.jpeg" alt="Clean Space Logo">
+    <span class="logo-name">Clean Space</span>
+  </a>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="dienstleistungen.html" class="active">Dienstleistungen</a>
+    <a href="contacto.html">Kontakt</a>
+  </nav>
+</header>
+
+<!-- ── PAGE HERO ──────────────────────────────────── -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <p class="label">Was wir bieten</p>
+    <h1>Unsere<br>Dienstleistungen</h1>
+  </div>
+</div>
+
+<!-- ── SERVICES LIST ──────────────────────────────── -->
+<div class="services-list">
+
+  <!-- 1. Haushaltsreinigung -->
+  <div class="service-block">
+    <div class="service-block-img">
+      <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=900&q=80" alt="Haushaltsreinigung">
+    </div>
+    <div class="service-block-content">
+      <span class="s-num">01 — Haushaltsreinigung</span>
+      <h2 class="s-title">Reinigung<br>für Zuhause</h2>
+      <div class="s-divider"></div>
+      <p class="s-desc">Wir reinigen Ihren Wohnraum gründlich und diskret – von der regelmäßigen Unterhaltspflege bis zur einmaligen Grundreinigung. Böden, Küche, Bäder, Zimmer: alles wird mit größter Sorgfalt behandelt.</p>
+    </div>
+  </div>
+
+  <!-- 2. Büroreinigung -->
+  <div class="service-block">
+    <div class="service-block-img">
+      <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=80" alt="Büroreinigung">
+    </div>
+    <div class="service-block-content">
+      <span class="s-num">02 — Büroreinigung</span>
+      <h2 class="s-title">Saubere<br>Arbeitsbereiche</h2>
+      <div class="s-divider"></div>
+      <p class="s-desc">Ein gepflegtes Büro steigert die Produktivität und hinterlässt einen professionellen Eindruck. Wir reinigen Ihren Arbeitsbereich außerhalb der Geschäftszeiten – ohne Unterbrechung Ihres Alltags.</p>
+    </div>
+  </div>
+
+  <!-- 3. Baureinigung -->
+  <div class="service-block">
+    <div class="service-block-img">
+      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&q=80" alt="Baureinigung">
+    </div>
+    <div class="service-block-content">
+      <span class="s-num">03 — Baureinigung</span>
+      <h2 class="s-title">Endreinigung<br>nach dem Bau</h2>
+      <div class="s-divider"></div>
+      <p class="s-desc">Nach Bau- oder Renovierungsarbeiten entfernen wir Staub, Schutt und Rückstände vollständig. Das Resultat: ein besenrein übergabefertiges Objekt, das vom ersten Tag an glänzt.</p>
+    </div>
+  </div>
+
+  <!-- 4. Tiefenreinigung -->
+  <div class="service-block">
+    <div class="service-block-img">
+      <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=900&q=80" alt="Tiefenreinigung">
+    </div>
+    <div class="service-block-content">
+      <span class="s-num">04 — Tiefenreinigung</span>
+      <h2 class="s-title">Intensive<br>Tiefenpflege</h2>
+      <div class="s-divider"></div>
+      <p class="s-desc">Für Bereiche, die mehr als Oberflächenpflege brauchen: Fugen, Herd, Dunstabzug, Kacheln, Sanitäranlagen. Wir setzen Fachkenntnisse und professionelle Mittel ein, um hartnäckige Ablagerungen zu beseitigen.</p>
+    </div>
+  </div>
+
+  <!-- 5. Fensterreinigung -->
+  <div class="service-block">
+    <div class="service-block-img">
+      <img src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=900&q=80" alt="Fensterreinigung">
+    </div>
+    <div class="service-block-content">
+      <span class="s-num">05 — Fensterreinigung</span>
+      <h2 class="s-title">Kristallklare<br>Aussichten</h2>
+      <div class="s-divider"></div>
+      <p class="s-desc">Saubere Fenster verändern den Charakter eines Raumes. Wir reinigen innen und außen, Rahmen und Glasscheiben – für maximale Helligkeit und einen makellosen Eindruck.</p>
+    </div>
+  </div>
+
+  <!-- 6. Umzugsreinigung -->
+  <div class="service-block">
+    <div class="service-block-img">
+      <img src="https://images.unsplash.com/photo-1600518464441-9154a4dea21b?w=900&q=80" alt="Umzugsreinigung">
+    </div>
+    <div class="service-block-content">
+      <span class="s-num">06 — Umzugsreinigung</span>
+      <h2 class="s-title">Stressfrei<br>umziehen</h2>
+      <div class="s-divider"></div>
+      <p class="s-desc">Ob Auszugsreinigung für die Rückgabe oder Grundreinigung vor dem Einzug: wir kümmern uns um alles, damit Sie sich voll auf Ihren Neuanfang konzentrieren können.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── CTA BANNER ──────────────────────────────────── -->
+<div class="cta-banner">
+  <p class="label">Bereit für mehr Sauberkeit?</p>
+  <h2>Fordern Sie jetzt Ihr<br>persönliches Angebot an.</h2>
+  <a href="contacto.html" class="cta-btn">Kontakt aufnehmen →</a>
+</div>
+
+<!-- ── FLOATING BUTTONS ───────────────────────────── -->
+<div class="floating-buttons">
+  <a href="https://wa.me/+41793719626" target="_blank" title="WhatsApp">
+    <img src="whatsapp.png" alt="WhatsApp">
+  </a>
+  <a href="https://www.instagram.com/cleanspace1818" target="_blank" title="Instagram">
+    <img src="instagram.png" alt="Instagram">
+  </a>
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────── -->
+<footer>
+  <div class="footer-brand">
+    <img src="logoclean.jpeg" alt="Logo">
+    <span>Clean Space</span>
+  </div>
+  <p>© 2026 Clean Space · Alle Rechte vorbehalten</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const blocks = document.querySelectorAll(".service-block");
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add("visible");
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  blocks.forEach(b => obs.observe(b));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontakt – Clean Space</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy: #0d1b2a;
+      --navy-mid: #1a2d42;
+      --blue-accent: #2d6a9f;
+      --blue-light: #5ba4d4;
+      --off-white: #f7f5f2;
+      --white: #ffffff;
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--navy);
+      background: var(--off-white);
+      overflow-x: hidden;
+    }
+
+    /* ─── HEADER ─────────────────────────────────── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(13, 27, 42, 0.97);
+      backdrop-filter: blur(12px);
+      padding: 0 48px;
+      height: 72px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+
+    .logo-wrap img {
+      height: 44px; width: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid rgba(255,255,255,0.15);
+    }
+
+    .logo-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45rem;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 0.04em;
+    }
+
+    nav { display: flex; gap: 6px; align-items: center; }
+
+    nav a {
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border-radius: 4px;
+      transition: color var(--transition), background var(--transition);
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 4px; left: 18px; right: 18px;
+      height: 1px;
+      background: var(--blue-light);
+      transform: scaleX(0);
+      transition: transform var(--transition);
+      transform-origin: left;
+    }
+
+    nav a:hover { color: var(--white); background: rgba(255,255,255,0.05); }
+    nav a:hover::after { transform: scaleX(1); }
+    nav a.active { color: var(--white); background: rgba(93,164,212,0.15); }
+    nav a.active::after { transform: scaleX(1); }
+
+    /* ─── PAGE HERO ───────────────────────────────── */
+    .page-hero {
+      padding-top: 72px;
+      height: 320px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .page-hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1600&q=80');
+      background-size: cover;
+      background-position: center 30%;
+      filter: brightness(0.3);
+    }
+
+    .page-hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 48px;
+    }
+
+    .page-hero-content .label {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      margin-bottom: 12px;
+    }
+
+    .page-hero-content h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+    }
+
+    /* ─── CONTACT LAYOUT ──────────────────────────── */
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      min-height: 600px;
+      max-width: 1200px;
+      margin: 72px auto;
+      gap: 80px;
+      padding: 0 48px;
+      align-items: start;
+    }
+
+    /* ─── LEFT PANEL ──────────────────────────────── */
+    .contact-info {
+      padding-top: 8px;
+    }
+
+    .contact-info .label {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--blue-accent);
+      margin-bottom: 16px;
+    }
+
+    .contact-info h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.6rem;
+      font-weight: 300;
+      color: var(--navy);
+      line-height: 1.15;
+      margin-bottom: 28px;
+    }
+
+    .contact-info p {
+      color: #5a6a7e;
+      font-size: 0.92rem;
+      line-height: 1.85;
+      font-weight: 300;
+      margin-bottom: 44px;
+    }
+
+    .contact-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .detail-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--navy);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .detail-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--blue-light);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .detail-text strong {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue-accent);
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+
+    .detail-text a,
+    .detail-text span {
+      color: var(--navy);
+      font-size: 0.92rem;
+      font-weight: 300;
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .detail-text a:hover { color: var(--blue-accent); }
+
+    .social-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 40px;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border: 1px solid rgba(13,27,42,0.15);
+      border-radius: 2px;
+      text-decoration: none;
+      color: var(--navy);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: background var(--transition), color var(--transition), border-color var(--transition);
+    }
+
+    .social-link:hover {
+      background: var(--navy);
+      color: var(--white);
+      border-color: var(--navy);
+    }
+
+    .social-link img { width: 16px; height: 16px; }
+
+    /* ─── FORM ────────────────────────────────────── */
+    .contact-form-wrap {
+      background: var(--navy);
+      padding: 56px 52px;
+      border-radius: 2px;
+    }
+
+    .form-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 36px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 24px;
+    }
+
+    .form-group.full { grid-column: 1 / -1; }
+
+    .form-group label {
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 10px;
+      font-weight: 400;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 2px;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 300;
+      padding: 14px 16px;
+      outline: none;
+      transition: border-color var(--transition), background var(--transition);
+      -webkit-appearance: none;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(255,255,255,0.25); }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--blue-light);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .form-group select {
+      cursor: pointer;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .form-group select option { background: var(--navy); color: var(--white); }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 130px;
+    }
+
+    .form-submit {
+      width: 100%;
+      background: var(--blue-accent);
+      color: var(--white);
+      border: none;
+      padding: 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background var(--transition);
+      margin-top: 8px;
+    }
+
+    .form-submit:hover { background: var(--blue-light); }
+
+    /* Success state */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    .form-success .check {
+      width: 56px;
+      height: 56px;
+      border: 2px solid var(--blue-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    .form-success .check svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--blue-light);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .form-success h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .form-success p {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    /* ─── FLOATING ────────────────────────────────── */
+    .floating-buttons {
+      position: fixed;
+      right: 20px; bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 9999;
+    }
+
+    .floating-buttons a {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--navy-mid);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+      transition: transform var(--transition), background var(--transition);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .floating-buttons a:hover { transform: scale(1.12); background: var(--blue-accent); }
+    .floating-buttons img { width: 22px; height: 22px; }
+
+    /* ─── FOOTER ──────────────────────────────────── */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 80px;
+    }
+
+    .footer-brand { display: flex; align-items: center; gap: 12px; }
+    .footer-brand img { height: 32px; width: 32px; border-radius: 50%; object-fit: cover; opacity: 0.7; }
+    .footer-brand span { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: rgba(255,255,255,0.5); }
+    footer p { font-size: 0.78rem; color: rgba(255,255,255,0.3); letter-spacing: 0.06em; }
+
+    /* ─── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 900px) {
+      header { padding: 0 24px; }
+      .logo-name { display: none; }
+      .contact-wrapper { grid-template-columns: 1fr; gap: 48px; padding: 0 24px; margin: 48px auto; }
+      .contact-form-wrap { padding: 40px 28px; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ── HEADER ─────────────────────────────────────── -->
+<header>
+  <a href="index.html" class="logo-wrap">
+    <img src="logoclean.jpeg" alt="Clean Space Logo">
+    <span class="logo-name">Clean Space</span>
+  </a>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="dienstleistungen.html">Dienstleistungen</a>
+    <a href="contacto.html" class="active">Kontakt</a>
+  </nav>
+</header>
+
+<!-- ── PAGE HERO ──────────────────────────────────── -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <p class="label">Sprechen Sie uns an</p>
+    <h1>Kontakt</h1>
+  </div>
+</div>
+
+<!-- ── CONTACT LAYOUT ─────────────────────────────── -->
+<div class="contact-wrapper">
+
+  <!-- LEFT: Info -->
+  <div class="contact-info">
+    <p class="label">Wir sind für Sie da</p>
+    <h2>Lassen Sie uns<br>sprechen.</h2>
+    <p>Sie möchten ein Angebot anfordern, eine Frage stellen oder einen Termin vereinbaren? Füllen Sie einfach das Formular aus – wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>
+
+    <div class="contact-detail">
+      <div class="detail-icon">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.95 5.83 19.79 19.79 0 01.88 4a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7a2 2 0 011.72 2.03z"/></svg>
+      </div>
+      <div class="detail-text">
+        <strong>Telefon</strong>
+        <a href="tel:+41793719626">+41 79 371 96 26</a>
+      </div>
+    </div>
+
+    <div class="contact-detail">
+      <div class="detail-icon">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div class="detail-text">
+        <strong>E-Mail</strong>
+        <a href="mailto:william.morenoalvarez@gmail.com">william.morenoalvarez@gmail.com</a>
+      </div>
+    </div>
+
+    <div class="contact-detail">
+      <div class="detail-icon">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <div class="detail-text">
+        <strong>Region</strong>
+        <span>Kanton Zürich & Umgebung</span>
+      </div>
+    </div>
+
+    <div class="social-row">
+      <a href="https://wa.me/+41793719626" target="_blank" class="social-link">
+        <img src="whatsapp.png" alt="WhatsApp"> WhatsApp
+      </a>
+      <a href="https://www.instagram.com/cleanspace1818" target="_blank" class="social-link">
+        <img src="instagram.png" alt="Instagram"> Instagram
+      </a>
+    </div>
+  </div>
+
+  <!-- RIGHT: Form -->
+  <div class="contact-form-wrap">
+    <h3 class="form-title">Anfrage senden</h3>
+
+    <div id="contactForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Vorname</label>
+          <input type="text" id="fname" placeholder="Max">
+        </div>
+        <div class="form-group">
+          <label>Nachname</label>
+          <input type="text" id="lname" placeholder="Mustermann">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>E-Mail</label>
+          <input type="email" id="email" placeholder="max@beispiel.ch">
+        </div>
+        <div class="form-group">
+          <label>Telefon</label>
+          <input type="tel" id="phone" placeholder="+41 79 000 00 00">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Dienstleistung</label>
+        <select id="service">
+          <option value="" disabled selected>Bitte wählen…</option>
+          <option>Haushaltsreinigung</option>
+          <option>Büroreinigung</option>
+          <option>Baureinigung</option>
+          <option>Tiefenreinigung</option>
+          <option>Fensterreinigung</option>
+          <option>Umzugsreinigung</option>
+          <option>Sonstiges</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Nachricht</label>
+        <textarea id="message" placeholder="Beschreiben Sie kurz Ihren Bedarf, die Fläche und den gewünschten Termin…"></textarea>
+      </div>
+
+      <button class="form-submit" onclick="submitForm()">Anfrage absenden →</button>
+    </div>
+
+    <!-- Success -->
+    <div class="form-success" id="formSuccess">
+      <div class="check">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h3>Vielen Dank!</h3>
+      <p>Ihre Anfrage ist bei uns eingegangen.<br>Wir melden uns innerhalb von 24 Stunden.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── FLOATING BUTTONS ───────────────────────────── -->
+<div class="floating-buttons">
+  <a href="https://wa.me/+41793719626" target="_blank" title="WhatsApp">
+    <img src="whatsapp.png" alt="WhatsApp">
+  </a>
+  <a href="https://www.instagram.com/cleanspace1818" target="_blank" title="Instagram">
+    <img src="instagram.png" alt="Instagram">
+  </a>
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────── -->
+<footer>
+  <div class="footer-brand">
+    <img src="logoclean.jpeg" alt="Logo">
+    <span>Clean Space</span>
+  </div>
+  <p>© 2026 Clean Space · Alle Rechte vorbehalten</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  // ── EmailJS setup ──────────────────────────────────────
+  // PASO 1: Crea cuenta gratis en https://www.emailjs.com
+  // PASO 2: Crea un "Email Service" (Gmail) → copia el Service ID
+  // PASO 3: Crea un "Email Template" con las variables abajo → copia el Template ID
+  // PASO 4: Ve a Account → copia tu Public Key
+  // PASO 5: Reemplaza los tres valores de abajo con los tuyos
+
+  const EMAILJS_PUBLIC_KEY  = "TU_PUBLIC_KEY";   // ← reemplazar
+  const EMAILJS_SERVICE_ID  = "TU_SERVICE_ID";   // ← reemplazar
+  const EMAILJS_TEMPLATE_ID = "TU_TEMPLATE_ID";  // ← reemplazar
+
+  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+  // Variables que debes usar en tu EmailJS Template:
+  // {{from_name}}  {{from_email}}  {{phone}}  {{service}}  {{message}}
+  // To Email en el template: william.morenoalvarez@gmail.com
+
+  async function submitForm() {
+    const fname   = document.getElementById('fname').value.trim();
+    const lname   = document.getElementById('lname').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const phone   = document.getElementById('phone').value.trim();
+    const service = document.getElementById('service').value;
+    const message = document.getElementById('message').value.trim();
+
+    if (!fname || !email || !service) {
+      showError('Bitte füllen Sie mindestens Vorname, E-Mail und Dienstleistung aus.');
+      return;
+    }
+
+    const btn = document.querySelector('.form-submit');
+    btn.textContent = 'Wird gesendet…';
+    btn.disabled = true;
+
+    try {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        from_name:  fname + ' ' + lname,
+        from_email: email,
+        phone:      phone || '—',
+        service:    service,
+        message:    message || '—',
+        to_email:   'william.morenoalvarez@gmail.com'
+      });
+
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+
+    } catch (err) {
+      btn.textContent = 'Anfrage absenden →';
+      btn.disabled = false;
+      showError('Fehler beim Senden. Bitte versuchen Sie es erneut oder kontaktieren Sie uns per WhatsApp.');
+      console.error('EmailJS error:', err);
+    }
+  }
+
+  function showError(msg) {
+    let el = document.getElementById('formError');
+    if (!el) {
+      el = document.createElement('p');
+      el.id = 'formError';
+      el.style.cssText = 'color:#f08080;font-size:0.82rem;margin-top:-12px;margin-bottom:16px;';
+      document.querySelector('.form-submit').before(el);
+    }
+    el.textContent = msg;
+  }
+</script>
+
+</body>
+</html>
