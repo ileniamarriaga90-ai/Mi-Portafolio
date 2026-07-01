@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Alix Mercado | Galería</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="estilo.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <a href="index.html" class="logo">
+            <img src="imagenes/logo.png" alt="Alix Mercado">
+        </a>
+
+        <nav class="nav">
+            <a href="index.html">Inicio</a>
+            <a href="quien-soy.html">Quién Soy</a>
+            <a href="servicios.html">Servicios</a>
+            <a href="galeria.html" class="active">Galería</a>
+            <a href="cotizar.html">Cotizar</a>
+            <a href="contacto.html">Contacto</a>
+        </nav>
+
+    </header>
+
+    <!-- ================= GALERÍA ================= -->
+
+    <section class="galeria-slider">
+
+    <h1>Galería</h1>
+
+    <div class="slider">
+
+        <button class="prev">&#10094;</button>
+
+        <img id="slider-img" src="imagenes/ga1.jpeg" alt="Galería">
+
+        <button class="next">&#10095;</button>
+
+    </div>
+
+    <div class="contador">
+        <span id="actual">1</span> /
+        <span id="total">13</span>
+    </div>
+
+</section>
+
+<script src="/script.js"></script>
+
+</body>
+</html>
